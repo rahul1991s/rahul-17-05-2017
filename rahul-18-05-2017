@@ -1,0 +1,34 @@
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+/**
+ *
+ * @author ebs-sdd20
+ */
+public class Demo implements Serializable {
+
+    public static void main(String args[]) {
+
+        Map<Long, String> map1 = new ConcurrentHashMap<>();
+        Long i = 1L;
+        while (true) {
+
+            map1.put(i++, "rahul");
+
+            if (Runtime.getRuntime().freeMemory() < 0) {
+                //If heap size is full
+
+                Map<Long, String> map2 = new HashMap<>();
+                map2.putAll(map1);   //Copied from map1 to map2
+
+                for (Map.Entry<Long, String> entry : map2.entrySet()) {
+                    System.out.println("Key: " + entry.getKey() + " Value: " + entry.getValue());
+                }
+                break;
+
+            }
+        }
+    }
+}
